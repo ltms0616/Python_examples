@@ -1,0 +1,8 @@
+Using dict.get allows us to easily update dictionary values, providing the
+values are single items like numbers or strings. But what if each value is itself
+a collection? To demonstrate how to handle this we will look at a program
+that reads HTML files given on the command line and prints a list of each
+unique Web site that is referred to in the files with a list of the referring files
+listed indented below the name of each Web site. Structurally, the program
+is very similar to the unique words program we have just
+reviewed. Here is the main part of the code
