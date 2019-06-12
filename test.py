@@ -198,3 +198,31 @@ print("{0.Id}".format(user_list))"""
 #dash_line = "{0:=<25} {0:=^6} {0:=^10}  ".format("")*2
 #title = col + dash_line
 #print(title)
+
+#test parameter unpacking
+"""def employee_info(**member):
+    print(**locals())
+    for key in member:
+        print("{0} {1}".format(key, member[key]))
+
+new_member1=dict(name="MiMi", age=42, major="CSR"
+employee_info(**new_member)"""
+
+#test sorted with lambda
+"""import collections
+elements=[(2, 12, "Mg"), (1, 11, "Na"), (1, 3, "Li"), (2, 4, "Be")]
+print(sorted(elements, key=lambda x: x[1]))
+print(sorted(elements, key=lambda x: (x[1],x[2])))
+print(sorted(elements, key=lambda x: (x[2],x[1])))
+
+chg_ord = lambda x: (x[1], x[2])
+print(sorted(elements, key=chg_ord))
+
+minus_one_dict=collections.defaultdict(lambda: -1)
+minus_one_dict.update(name="Moore")
+print(minus_one_dict["name"])
+print(minus_one_dict["age"])"""
+
+STYLESHEET_TEMPLATE = ('<link rel="stylesheet" type="text/css"'
+                       'media="all" href= />\n')
+print(STYLESHEET_TEMPLATE)
