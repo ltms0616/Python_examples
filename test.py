@@ -223,6 +223,69 @@ minus_one_dict.update(name="Moore")
 print(minus_one_dict["name"])
 print(minus_one_dict["age"])"""
 
-STYLESHEET_TEMPLATE = ('<link rel="stylesheet" type="text/css"'
-                       'media="all" href= />\n')
-print(STYLESHEET_TEMPLATE)
+
+"""class CancelledError(Exception):pass
+
+try:
+    while True:
+        keyword = input("Enter a keyword:")
+        if not keyword:
+            raise CancelledError()
+        else:
+            print(keyword)
+except CancelledError:
+    print("Cancelled")
+finally:
+    print("End")"""
+
+
+#test customized module
+"""import TextUtila
+
+def main():
+    text=" What is it"
+    print(TextUtil.simplify(text))
+
+main()"""
+
+#test assert
+"""while True:
+    line = input("Enter a keyword")
+    print(len(line))
+    assert len(line) < 4, "the inputn char should less than 4 characters"
+    print(line)"""
+
+#test subprocess
+"""import subprocess
+import sys
+command = (["clear"]if not sys.platform.startswith("win") else ["cmd.exe", "/C", "cls"])
+subprocess.call(command)"""
+
+#test global
+Language = "en"
+
+def set_language():
+    line = input("Set the language: ")
+    #global Language
+    if line == "1":
+        Language = "fr"
+    else:
+        Language = "en"
+
+set_language()
+print(Language)
+
+#test list comprehension
+"""max_row = 5
+max_col = 3
+char="A"
+lst = []
+#lst = [[base for i in range(5)] for j in range(3)]
+for row in range(1,3):
+    lst.append([])
+    for col in range(max_col):
+        lst[-1].append(char)
+
+print(lst)"""
+
+
