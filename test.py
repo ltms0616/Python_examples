@@ -198,3 +198,7 @@ print("{0.Id}".format(user_list))"""
 #dash_line = "{0:=<25} {0:=^6} {0:=^10}  ".format("")*2
 #title = col + dash_line
 #print(title)
+
+#test strip
+line ="this is a test of strip"
+print(line.strip())

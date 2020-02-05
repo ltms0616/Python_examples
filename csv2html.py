@@ -1,71 +1,93 @@
 import sys
 
-def main():
-    write_start()
-    read_fp = open("country_data.txt", "r")
-    write_fp = open("country_data.html", "a")
-    count = 0
-    line = read_fp.readline()
-    while line:
-        if count == 0:
-            color = "lightgreen"
-        elif count % 2:
-            color = "white"
-        else:
-            color = "lightyellow"
-        write_lines(write_fp, line, color)
-        line = read_fp.readline()
-        count += 1
-    read_fp.close()
-    write_fp.close()
-    write_end()
+def write_start(htmlfile):
+    htmlfile.write("<table border='1'>")
 
-def write_start():
-    with open("country_data.html", "w") as fp:
-        fp.write("<table border=1>")
+def write_end(htmlfile):
+    htmlfile.write("</table>")
+def escape_html(data):
+    data = data.replace("&", "&amp;")
+    data = data.replace("<", "&lt;")
+    data = data.replace(">", "&gt;")
+    return data
 
-def write_lines(fp, line, color):
-    fields = extract_fields(line)
-    fp.write("<tr bgcolor={}>".format(color))
+def write_fields(file, fields, color, maxwidth):
+    file.write("<tr bgcolor='{0}'>".format(color))
     for field in fields:
         if not field:
-            fp.write("<td></td>")
+            file.write("<td></td>")
         else:
             number = field.replace(",", "")
             try:
-                x = float(number)
-                fp.write("<td>{:d}</td>".format(round(x)))
+                data = float(number)
+                file.write("<td align='right'>{0:d}</td>".format(round(data)))
             except ValueError:
                 field = field.title()
-                fp.write("<td>{}</td>".format(field))
-    fp.write("</tr>")
-
+                field = field.replace(" AND ", " and ")
+                if len(field) < maxwidth:
+                    field = escape_html(field)
+                else:
+                    field = "{0}...".format(escape_html(field[0:maxwidth]))
+                file.write("<td>{0}</td>".format(field))
+    file.write("</tr>\n")
 def extract_fields(line):
-    fields=[]
+    field=""
+    fields = []
     quote = None
-    field = ""
-    for x in line:
-        if x in "\"'":
+    for c in line:
+        if c in "\"'":
             if quote is None:
-                quote = x
-            elif quote == x:
+                quote = c
+            elif quote == c:
                 quote = None
             else:
-                field += x
-        elif quote is None and x == ",":
+                field += c
+        elif quote is None and c == ",":
             fields.append(field)
-            field=""
+            field = ""
         else:
-            field += x
+            field += c
     if field:
         fields.append(field)
     return fields
+def main():
+    if len(sys.argv)>1:
+        if sys.argv[1] in ("-h", "--help"):
+            print("usage: {0} [csvfile] [htmlfile]".format(sys.argv[0]))
+        elif sys.argv[1].lower().endswith(".csv"):
+            infile = sys.argv[1]
+        else:
+            print("wrong input")
+            print("usage: {0} [csvfile] [htmlfile]".format(sys.argv[0]))
 
-#def escape_html():
+        if len(sys.argv) > 2:
+            if sys.argv[2].lower().endswith(".html"):
+                outfile = sys.argv[2]
+            else:
+                outfile = "data.html"
+    else:
+        print("usage: {0} [csvfile] [htmlfile]".format(sys.argv[0]))
 
-def write_end():
-    with open("country_data.html", "a") as fp:
-        fp.write("</table>")
+    csvfile = open(infile)
+    htmlfile = open(outfile, 'a')
+    write_start(htmlfile)
+    count = 0
+    maxwidth = 100
+    while True:
+        line = csvfile.readline()
+        if not line:
+            break
+        if count == 0:
+            color = "lightgreen"
+        elif count%2:
+            color = "white"
+        else:
+            color = "lightyellow"
+        fields = extract_fields(line)
+        write_fields(htmlfile, fields, color, maxwidth)
+        count+=1
+    write_end(htmlfile)
+    csvfile.close()
+    htmlfile.close()
 
 main()
-

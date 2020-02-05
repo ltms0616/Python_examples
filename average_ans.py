@@ -1,22 +1,24 @@
 import sys
 
-sum = 0
-count = 0
-numbers = []
+lowest = None
+highest = None
+nums=[]
+total = 0
 while True:
-    line = ""
     try:
         line = input("enter a number or Enter to finish:")
         if not line:
             break
-        numbers.append(int(line))
-        count+=1
+        num = int(line)
+        if lowest is None or lowest > num:
+            lowest = num
+        if highest is None or highest < num:
+            highest = num
+        total += num
+        nums.append(num)
     except ValueError as err:
         print(err)
 
-numbers.sort()
-for x in numbers:
-    sum += x
-
-print("count = "+ str(count) + " sum = " + str(sum) + " lowest = " + str(numbers[0]) + " highest = " + str(numbers[-1]) +
-      " mean = " + str(sum/count))
+print("numbers=",nums)
+count = len(nums)
+print("count=",count,"total=", total, "mean=", total/count,  "min=", lowest, "max=", highest)

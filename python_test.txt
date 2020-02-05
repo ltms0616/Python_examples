@@ -1,0 +1,8 @@
+Python is a interpreter language of computer
+It's easy to hands up
+It's also not easy to learn to be expert.
+python can be implied in several application around the world.
+For example, it can be use to analsys the stock.
+python's rich libraries let people to use it to manage the data easily
+To learn the python, you need patience.
+

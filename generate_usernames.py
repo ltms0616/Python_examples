@@ -1,35 +1,45 @@
 import sys
-import random
 import collections
 
-User = collections.namedtuple("User", "Id ForeN MidN SurN Dep Uname")
-def extract_field(fp):
-    user_list=[]
-    lines = fp.readlines()
-    uname_list = []
-    for line in lines:
-        data = line.strip().split(":")
-        uname = "{0}{1}{2}".format(data[3][0], data[2][0], data[1][:5]).lower()
-        while uname in uname_list:
-            uname += str(random.randint(0,9))
-        uname_list.append(uname)
-        user_list.append(User(*data, uname))
+User = collections.namedtuple("User", "username forename midname surname id")
+ID, FORENAME, MIDNAME, SURNAME, DEPARTMENT = range(5)
 
-    return user_list
+def generate_username(field, usernames):
+    username = field[FORENAME][0]+field[MIDNAME][:1]+field[SURNAME]
+    username = original = username[:8].lower()
+    count = 1
+    while username in usernames:
+        username = original+str(count)
+        count += 1
+    usernames.add(username)
+    return username
+def process_line(line, usernames):
+    field = line.rstrip().split(":")
+    username=generate_username(field, usernames)
+    user = User(username, field[FORENAME], field[MIDNAME], field[SURNAME], field[ID])
+    return user
 
-users_list = {}
-fh = open("users.txt", encoding="utf8")
-users_list = extract_field(fh)
+def print_users(users):
+    namewidth=32
+    unamewidth=10
+    print("{0:<{nw}}{1:^6}{2:^{uw}}".format("NAME", "ID", "username", nw=namewidth, uw=unamewidth))
+    print("{0:-<{nw}}{0:-^6}{0:-^{uw}}".format("", nw=namewidth, uw=unamewidth))
+    for key in sorted(users):
+        user = users[key]
+        mid = ""
+        if user.midname:
+            mid = " " + user.midname[0:1]
+        name = "{0.surname}, {0.forename}{1}".format(user, mid)
+        print("{0:.<{nw}} {1:^6} {2:<{uw}}".format(name, user.id, user.username, nw=namewidth, uw=unamewidth))
 
-print("{0:<25} {1:^6} {2:^10}".format("Name", "ID", "Username"))
-print("{0:=<25} {0:=^6} {0:=^10}".format(""))
-for i in range(len(users_list)):
-    Name="{0}, {1}, {2}".format(users_list[i].SurN, users_list[i].ForeN, users_list[i].MidN[0])
-    print("{0:.<25} ({1:>4}) {2:<10}".format(Name, users_list[i].Id, users_list[i].Uname))
+if len(sys.argv)<2:
+    print("usage: generate_username.py user.txt")
+    sys.exit()
 
+usernames = set()
+users = {}
+for line in open(sys.argv[1]):
+    user=process_line(line, usernames)
+    users[(user.surname.lower(), user.forename.lower(), user.id)] = user
 
-
-
-
-
-
+print_users(users)
