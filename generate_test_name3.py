@@ -18,11 +18,12 @@ def get_names():
 forenames,midnames,surnames = get_names()
 id_no= list(range(0,100))
 departments=["Admin","Sales","Finance","R&D","Purchasing","QA"]
-limit=20
+limit=50
 fh = open("users.txt", "w", encoding="utf8")
 User = collections.namedtuple("User", "Id Forename Midname Surname Department")
+midnames.append("")
 members = []
-for id, forename in zip(random.sample(id_no, limit), random.sample(forenames, limit)):
+for id, forename in zip(random.sample(range(1000), limit), random.sample(forenames, limit)):
     members.append(User(id, forename, random.choice(midnames), random.choice(surnames), random.choice(departments)))
     members=sorted(members)
 for i in range(len(members)):

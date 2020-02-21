@@ -200,5 +200,11 @@ print("{0.Id}".format(user_list))"""
 #print(title)
 
 #test strip
-line ="this is a test of strip"
-print(line.strip())
+#line ="this is a test of strip"
+#print(line.strip())
+
+mode = ""
+print("""\
+count = 5
+{0}\
+mean = 6""".format(mode))

@@ -43,7 +43,7 @@ print(d2)
 
 d2_list= list(sorted(d2.items(), key=lambda d: d[0]))
 print(d2_list)
-print(d2.popitem(last=false))
+print(d2.popitem(last=False))
 """
 stocks2 = stocks1.fromkeys(["id"])
 print(stocks2)
